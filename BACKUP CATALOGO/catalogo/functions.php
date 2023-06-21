@@ -1,8 +1,6 @@
 <?php
-//Script que possui todas as FUNÇÕES que serão usadas para outros códigos 
+//Script que possui todas as FUNÇÕES que serão usadas para outros códigos
 include 'db.php';
-
-
 
 function insert($query){
     global $connection;
@@ -12,7 +10,6 @@ function insert($query){
         echo "Erro ao tentar inserir o usuário!";
     }
 }
-
 
 
 function update($query){

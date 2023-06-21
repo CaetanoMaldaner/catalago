@@ -1,35 +1,50 @@
 <?php
 //Script da pagina inicial
 
-include "db.php";
-
-// Verificar se a conexão foi estabelecida com sucesso
-if (!$connection) {
-    die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
-}    
-
+//inclue o script que contem todas as funções e que contem também a conexão com o banco
 include "functions.php";
 
-// Verificar se o formulário de login foi submetido
+// Verificar se a conexão com o banco foi estabelecida com sucesso
+if (!$connection) {
+    die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
+}
+
+
+//Verifica se o método de requisição usado para acessar a pagina é POST 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obter os valores do formulário
+
+    //Através do POST pega os dados que o usuario digitar na pagina de login e guarda-os em suas variaveis respectivas
+
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Consulta para verificar as credenciais do usuário no banco de dados
+    //Através do query verifica se os dados digitados pelo usuario estão no banco de dados 
     $query = "SELECT * FROM usuario WHERE nome='$username' AND senha='$password'";
+    //SELECINE todos os dados DA TABELA usuario ONDE coluna nome = $username (variavel que guarda o usuario que foi digitado) 
+
+    //Conecta no banco através da variavel $connection e executa uma pesquisa através da variavel $query 
+    //Em seguida guarda esses resultados na variavel $result
     $result = mysqli_query($connection, $query);
 
-    // Verificar se a consulta retornou algum resultado
+
+
+
+    // Verificar se a query recebeu algum resultado
     if (mysqli_num_rows($result) == 1) {
-        // Login bem-sucedido
-        echo "Login realizado com sucesso!";
+        // Se os dados recebidos estiverem no banco o login é efetuado corretamente
+        echo "Login efetuado corretamente!";
+
+        //header para direcionar o usuario para a loja (catalogo.php)
+        header("Location: catalogo.php");
+
+        //Finaliza o script home.php após redirecionar o usuario ao catalogo.php
+        exit(); 
+
     } else {
         // Login falhou
         echo "Nome de usuário ou senha incorretos!";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
