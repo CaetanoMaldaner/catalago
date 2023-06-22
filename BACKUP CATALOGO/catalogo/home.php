@@ -1,14 +1,14 @@
 <?php
 //Script da pagina inicial
 
-//inclue o script que contem todas as funções e que contem também a conexão com o banco
-include "functions.php";
+//inclue o script que contem todas as funções e também a conexão com o banco
+include "config/functions.php";
+include "config/db.php";
 
 // Verificar se a conexão com o banco foi estabelecida com sucesso
 if (!$connection) {
     die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
 }
-
 
 //Verifica se o método de requisição usado para acessar a pagina é POST 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Através do query verifica se os dados digitados pelo usuario estão no banco de dados 
     $query = "SELECT * FROM usuario WHERE nome='$username' AND senha='$password'";
-    //SELECINE todos os dados DA TABELA usuario ONDE coluna nome = $username (variavel que guarda o usuario que foi digitado) 
+    //SELECIONE todos os dados DA TABELA usuario ONDE coluna nome = $username (variavel que guarda o usuario que foi digitado) 
 
     //Conecta no banco através da variavel $connection e executa uma pesquisa através da variavel $query 
     //Em seguida guarda esses resultados na variavel $result
@@ -33,18 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($result) == 1) {
         // Se os dados recebidos estiverem no banco o login é efetuado corretamente
         echo "Login efetuado corretamente!";
-
-        //header para direcionar o usuario para a loja (catalogo.php)
         header("Location: catalogo.php");
-
-        //Finaliza o script home.php após redirecionar o usuario ao catalogo.php
-        exit(); 
-
+    exit();
     } else {
         // Login falhou
         echo "Nome de usuário ou senha incorretos!";
     }
 }
+
 ?>
 
 <!DOCTYPE html>

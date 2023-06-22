@@ -1,6 +1,6 @@
 <?php
 //Pagina principal DA LOJA
-include "functions.php";
+include "config/functions.php";
 
 //realiza uma pesquisa no banco para pegar todos os dados da tabela PRODUTO
 $query = "SELECT * FROM produto";
@@ -9,27 +9,93 @@ $query = "SELECT * FROM produto";
 $result = lista($query);
 
 
-//guarda o id do usuario da $_SESSION atual na variavel $usuario_id
-$usuario_id = $_SESSION["usuario_id"]; 
-
-//Guarda no banco de dados o $usuario_id no campo usuario_id da tabela CARRINHO
-$query = "INSERT INTO carrinho (usuario_id) VALUES ('$usuario_id')";
-insert($query);
-
-//depois de criar um carrinho para o usuario logado
-//pega novamente o carrinho para então usa-lo
-
-//A função mysqli_insert_id($connection) pega esse carrinho
-$carrinho_id = mysqli_insert_id($connection);
-
-
-
-
-
-$produto_id = $_POST["produto_id"]; // ID do produto selecionado
-$quantidade = $_POST["quantidade"]; // Quantidade a ser adicionada ao carrinho
-
-//Adiciona na tabela produto_carrinho o ID do produto comprado, a quantidade e em qual carrinho ele foi adicionado 
-$query = "INSERT INTO produto_carrinho (produto_id, quantidade, carrinho_id) VALUES ('$produto_id', '$quantidade', '$carrinho_id')";
-insert($query);
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catálogo de Produtos</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .produtos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .produto {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .produto img {
+            max-width: 200px;
+        }
+
+        .produto .descricao {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .produto .preco {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .produto .btn-adicionar {
+            margin-top: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Catálogo de Produtos</h1>
+
+    <div class="produtos">
+        <?php
+        // Verifica se há produtos no resultado da pesquisa
+        if ($result->num_rows > 0) {
+            // Itera sobre os produtos e exibe as informações
+            while ($produto = $result->fetch_assoc()) {
+                ?>
+                <div class="produto">
+                <img src="imgs/<?php echo $produto['imagem']; ?>" alt="Imagem do Produto">
+                    <div class="descricao"><?php echo $produto['descricao']; ?></div>
+                    <div class="preco">R$ <?php echo $produto['preco']; ?></div>
+                    <a href="#" class="btn-adicionar">Adicionar ao Carrinho</a>
+                </div>
+                <?php
+            }
+        } else {
+            echo "<p>Nenhum produto encontrado.</p>";
+        }
+        ?>
+    </div>
+</body>
+</html>
+
