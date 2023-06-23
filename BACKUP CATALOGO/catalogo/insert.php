@@ -14,7 +14,7 @@ if($image = insert_image($_FILES)){
     
     insert($query);
 }else{
-    echo "fudeo";
+    echo "FUDEOO!!!";
 }
 
 
@@ -31,7 +31,6 @@ if ($image['imagem']['error'] === UPLOAD_ERR_OK) {
     if (move_uploaded_file($image['imagem']['tmp_name'], $diretorioDestino . $nomeUnico)) {
         // Armazene o nome único da imagem no banco de dados
         return $nomeUnico;
-        // Execute a query para salvar no banco de dados
     } else {
         echo 'Ocorreu um erro ao mover o arquivo.';
     }
@@ -39,3 +38,4 @@ if ($image['imagem']['error'] === UPLOAD_ERR_OK) {
     echo 'Ocorreu um erro durante o upload do arquivo.';
 }
 }
+?>
