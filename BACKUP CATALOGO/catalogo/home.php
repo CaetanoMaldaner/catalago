@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Página de Login</title>
     <style>
         body {
+            background: linear-gradient(to right, #c0c0c0, #000000);
             display: flex;
             justify-content: center;
             align-items: center;

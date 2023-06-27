@@ -10,6 +10,7 @@ $result = lista($query);
 
 session_start();
 
+
 // Verifica se o carrinho já existe na sessão
 if (!isset($_SESSION['carrinho'])) {
     // Se não existir, cria um carrinho vazio
@@ -30,7 +31,8 @@ if (isset($_GET['adicionar'])) {
         $_SESSION['carrinho'][$produtoID] = array(
             'nome' => $_GET['nome'],
             'preco' => $_GET['preco'],
-            'quantidade' => 1
+            'quantidade' => 1,
+            'imagem' => $_GET['imagem']
         );
     }
    
@@ -49,14 +51,16 @@ if (isset($_GET['limpar_carrinho']) && $_GET['limpar_carrinho'] === 'true') {
 <head>
     <title>Catálogo de Produtos</title>
     <style>
+        
         body {
+            background: linear-gradient(to right, #c0c0c0, #000000);
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             justify-content: space-between;
             font-family: Arial, sans-serif;
         }
-
+        
         .catalogo {
             width: 70%;
             margin-right: 20px;
@@ -73,6 +77,7 @@ if (isset($_GET['limpar_carrinho']) && $_GET['limpar_carrinho'] === 'true') {
         }
 
         .produto {
+            background: #c0c0c0;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
@@ -115,8 +120,9 @@ if (isset($_GET['limpar_carrinho']) && $_GET['limpar_carrinho'] === 'true') {
         }
         /*  --------------------------------------------------------------------------------  */
         .carrinho {
+            border-radius: 10px;
             width: 100%;
-            background-color: #f2f2f2;
+            background-color: #c0c0c0;
             padding: 10px;
             height: 250px; 
             overflow-y: auto;
@@ -198,7 +204,7 @@ if (isset($_GET['limpar_carrinho']) && $_GET['limpar_carrinho'] === 'true') {
                         <div class="nome"><b><?php echo $produto['nome']; ?></b></div>
                         <div class="descricao"><?php echo $produto['descricao']; ?></div>
                         <div class="preco">R$ <?php echo $produto['preco']; ?></div>
-                        <a href="?adicionar=<?php echo $produto['id']; ?>&nome=<?php echo urlencode($produto['nome']); ?>&preco=<?php echo $produto['preco']; ?>" class="btn-adicionar">Adicionar ao Carrinho</a>
+                        <a href="?adicionar=<?php    echo $produto['id']; ?>&nome=<?php echo urlencode($produto['nome']); ?>&preco=<?php echo $produto['preco']; ?>&imagem=<?php echo $produto['imagem']; ?>" class="btn-adicionar">Adicionar ao Carrinho</a>
                     </div>
                     <?php
                 }
