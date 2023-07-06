@@ -15,26 +15,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Através do POST pega os dados que o usuario digitar na pagina de login e guarda-os em suas variaveis respectivas
 
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $email = $_POST["email"];
+    $password = sha1($_POST["password"]);
 
     //Através do query verifica se os dados digitados pelo usuario estão no banco de dados 
-    $query = "SELECT * FROM usuario WHERE nome='$username' AND senha='$password'";
-    //SELECIONE todos os dados DA TABELA usuario ONDE coluna nome = $username (variavel que guarda o usuario que foi digitado) 
+    $query = "SELECT * FROM usuario WHERE email='$email' AND senha='$password'";
+    //SELECIONE todos os dados DA TABELA usuario ONDE coluna email = $email (variavel que guarda o usuario que foi digitado) 
 
     //Conecta no banco através da variavel $connection e executa uma pesquisa através da variavel $query 
     //Em seguida guarda esses resultados na variavel $result
     $result = mysqli_query($connection, $query);
 
-
-
-
     // Verificar se a query recebeu algum resultado
     if (mysqli_num_rows($result) == 1) {
         // Se os dados recebidos estiverem no banco o login é efetuado corretamente
         echo "Login efetuado corretamente!";
+
+
+    //guarda os dados da pesquisa como um array associativo (MYSQLI_ASSOC) na variavel $result_usuario
+       $result_usuario = $result->fetch_array(MYSQLI_ASSOC);
+
+        //inicia uma sessão com os dados do usuario que efetuou o login, guardando na sessão seu ID, NOME e EMAIL
+        session_start();
+        $_SESSION['id_usuario'] = $result_usuario['id'];
+        $_SESSION['nome_usuario'] = $result_usuario['nome'];
+        $_SESSION['email_usuario'] = $result_usuario['email'];
+    
+
+
+
+        //manda o usuario para a pagina catalogo.php 
         header("Location: catalogo.php");
-    exit();
+ 
     } else {
         // Login falhou
         echo "Nome de usuário ou senha incorretos!";
@@ -93,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h2>Login</h2>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="username">Nome de Usuário:</label>
-            <input type="text" id="username" name="username" required>
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" name="email" required>
 
             <label for="password">Senha:</label>
             <input type="password" id="password" name="password" required>

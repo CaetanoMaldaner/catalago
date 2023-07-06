@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Jun-2023 às 00:05
+-- Tempo de geração: 06-Jul-2023 às 02:49
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.0.25
 
@@ -28,18 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `carrinho` (
-  `id` int(11) NOT NULL,
-  `quantidade` varchar(45) NOT NULL
+  `id` int(4) NOT NULL,
+  `id_usuario` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `carrinho`
 --
 
-INSERT INTO `carrinho` (`id`, `quantidade`) VALUES
-(1, '1'),
-(2, '2'),
-(3, '3');
+INSERT INTO `carrinho` (`id`, `id_usuario`) VALUES
+(13, 2);
 
 -- --------------------------------------------------------
 
@@ -101,21 +99,10 @@ INSERT INTO `produto` (`id`, `nome`, `preco`, `descricao`, `frete`, `status`, `c
 
 CREATE TABLE `produto_carrinho` (
   `id` int(11) NOT NULL,
-  `quantidade` varchar(45) DEFAULT NULL,
-  `carrinho_id` int(11) NOT NULL,
-  `produto_id` int(11) NOT NULL
+  `quantidade_produto` int(11) DEFAULT NULL,
+  `id_produto` int(11) DEFAULT NULL,
+  `id_carrinho` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `produto_carrinho`
---
-
-INSERT INTO `produto_carrinho` (`id`, `quantidade`, `carrinho_id`, `produto_id`) VALUES
-(1, '2', 1, 1),
-(2, '1', 1, 2),
-(3, '3', 2, 1),
-(4, '2', 2, 3),
-(5, '1', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -179,18 +166,15 @@ CREATE TABLE `usuario` (
   `senha` varchar(45) NOT NULL,
   `CPF` varchar(15) NOT NULL,
   `telefone` varchar(45) NOT NULL,
-  `endereco` varchar(150) NOT NULL,
-  `carrinho_id` int(11) NOT NULL
+  `endereco` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `CPF`, `telefone`, `endereco`, `carrinho_id`) VALUES
-(4, 'João da Silva', 'joao@example.com', '123456', '12345678901', '999999999', 'Rua A, 123', 1),
-(5, 'Maria Souza', 'maria@example.com', 'abcdef', '98765432101', '888888888', 'Avenida B, 456', 2),
-(6, 'Carlos Santos', 'carlos@example.com', 'qwerty', '54321678901', '777777777', 'Praça C, 789', 3);
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `CPF`, `telefone`, `endereco`) VALUES
+(2, 'Thiago', 'thiago@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '12543167215', '000000111', 'Rua Abc');
 
 --
 -- Índices para tabelas despejadas
@@ -200,7 +184,8 @@ INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `CPF`, `telefone`, `ender
 -- Índices para tabela `carrinho`
 --
 ALTER TABLE `carrinho`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Índices para tabela `categoria`
@@ -220,8 +205,8 @@ ALTER TABLE `produto`
 --
 ALTER TABLE `produto_carrinho`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_produto carrinho_carrinho1_idx` (`carrinho_id`),
-  ADD KEY `fk_produto carrinho_produto1_idx` (`produto_id`);
+  ADD KEY `id_produto` (`id_produto`),
+  ADD KEY `id_carrinho` (`id_carrinho`);
 
 --
 -- Índices para tabela `tamanhos`
@@ -241,8 +226,7 @@ ALTER TABLE `tamanhos_has_produto`
 -- Índices para tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_usuario_carrinho_idx` (`carrinho_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -252,7 +236,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `carrinho`
 --
 ALTER TABLE `carrinho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `categoria`
@@ -270,7 +254,7 @@ ALTER TABLE `produto`
 -- AUTO_INCREMENT de tabela `produto_carrinho`
 --
 ALTER TABLE `produto_carrinho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de tabela `tamanhos`
@@ -282,11 +266,17 @@ ALTER TABLE `tamanhos`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `carrinho`
+--
+ALTER TABLE `carrinho`
+  ADD CONSTRAINT `carrinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Limitadores para a tabela `produto`
@@ -298,8 +288,8 @@ ALTER TABLE `produto`
 -- Limitadores para a tabela `produto_carrinho`
 --
 ALTER TABLE `produto_carrinho`
-  ADD CONSTRAINT `fk_produto carrinho_carrinho1` FOREIGN KEY (`carrinho_id`) REFERENCES `carrinho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_produto carrinho_produto1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `produto_carrinho_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`),
+  ADD CONSTRAINT `produto_carrinho_ibfk_2` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinho` (`id`);
 
 --
 -- Limitadores para a tabela `tamanhos_has_produto`
@@ -307,12 +297,6 @@ ALTER TABLE `produto_carrinho`
 ALTER TABLE `tamanhos_has_produto`
   ADD CONSTRAINT `fk_tamanhos_has_produto_produto1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_tamanhos_has_produto_tamanhos1` FOREIGN KEY (`tamanhos_id`) REFERENCES `tamanhos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Limitadores para a tabela `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `fk_usuario_carrinho` FOREIGN KEY (`carrinho_id`) REFERENCES `carrinho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

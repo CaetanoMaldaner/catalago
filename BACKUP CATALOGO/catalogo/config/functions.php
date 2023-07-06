@@ -4,9 +4,11 @@
 function insert($query){
     include "config/db.php";
     if ($connection->query($query)){
-        echo "Inserido com sucesso!";
+        return mysqli_insert_id($connection);
+        $connection->close();
     } else {
-        echo "Erro ao tentar inserir!";
+        return false;
+        $connection->close();
     }
 }
 
@@ -15,23 +17,28 @@ function update($query){
     include "config/db.php";
     if ($connection->query($query)){
         return true;
+        $connection->close();
     } else {
         return false;
+        $connection->close();
     }
 }
 
 function delete($query){
     include "config/db.php";
     if ($connection->query($query)){
-        echo "Deletado com sucesso!";
+        return true;
+        $connection->close();
     } else {
-        echo "Erro ao tentar deletar o usuário!";
+        return false;
+        $connection->close();
     }
 }
 
 function lista($query){
     include "config/db.php";
     return $connection->query($query);
+    $connection->close();
 }
 
 
@@ -39,6 +46,21 @@ function lista($query){
 function getUsuario($query){
     include "config/db.php";
     return $connection->query($query)->fetch_assoc();
+    $connection->close();
 }
+
+
+function getCarrinho($query){
+    include "config/db.php";
+    return $connection->query($query)->fetch_assoc();
+    $connection->close();
+}
+
+function existCarrinho($query){
+    include "config/db.php";
+    return $connection->query($query);
+    $connection->close();
+}
+
 
 ?>

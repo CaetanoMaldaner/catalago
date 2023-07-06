@@ -1,15 +1,25 @@
 <?php
 
-//Script que conecta o BANCO DE DADOS com outros scripts atraves de um include "db.php"
+if (!defined('HOST')) {
+    define('HOST', 'localhost');
+}
 
-// Variável do tipo Constante
-define("HOST", 'localhost');
-define("USER", 'root');
-define("PASSWORD", '');
-define("NAME_DATABASE", 'catalogo');
+if (!defined('USER')) {
+    define('USER', 'root');
+}
 
-// CONFIGURAÇÕES DE CONEXÃO COM O BANCO DE DADOS MYSQL
-$connection = mysqli_connect(HOST, USER, PASSWORD, NAME_DATABASE);
+if (!defined('PASSWORD')) {
+    define('PASSWORD', '');
+}
 
+if (!defined('NAME_DATABASE')) {
+    define('NAME_DATABASE', 'catalogo');
+}
+
+// Verificar se a conexão já foi estabelecida anteriormente
+if (!isset($connection)) {
+    // CONFIGURAÇÕES DE CONEXÃO COM O BANCO DE DADOS MYSQL
+    $connection = mysqli_connect(HOST, USER, PASSWORD, NAME_DATABASE);
+}
 
 ?>
