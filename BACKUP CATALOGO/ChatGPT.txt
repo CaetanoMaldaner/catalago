@@ -1,8 +1,0 @@
-BOTÕES DA LOJA
-
-Mostre esses produtos na pagina catalogo.php e crie os botões de Adicionar ao Carrinho e a Quantidade que
-deve ser adicionada de maneira simplificada em HTML
-
-CSS
-
-Faça um simples CSS para organizar esses produtos e o carrinho no centro da pagina  
