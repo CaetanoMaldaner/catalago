@@ -23,6 +23,7 @@ include "home_functions/functions.php";
 </head>
 <body>
     <div class="container">
+
         <h2>Login</h2>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label for="email">E-mail:</label>
@@ -33,6 +34,9 @@ include "home_functions/functions.php";
 
             <input type="submit" value="Entrar">
         </form>
+       
+        <a href="inserir_usuario.php" class="btn-registro">Registro</a>
+
     </div>
 </body>
 </html>

@@ -62,5 +62,20 @@ function existCarrinho($query){
     $connection->close();
 }
 
+function select($query) {
+    include "config/db.php";
+    $result = $connection->query($query);
+    $rows = array();
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+    }
+
+    $connection->close();
+    return $rows;
+}
+
 
 ?>

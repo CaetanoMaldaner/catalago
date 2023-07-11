@@ -46,7 +46,8 @@ include "catalogo_functions/functions.php";
                         <a href="?adicionar=<?php echo $produto['id']; ?>&nome=<?php echo urlencode($produto['nome']); ?>&preco=<?php echo $produto['preco']; ?>&imagem=<?php echo $produto['imagem']; ?>" class="btn-adicionar">Adicionar ao Carrinho</a>
                         <?php if ($_SESSION['adm'] == 1): ?>
                         <a href="delete_produto.php?id_produto=<?php echo $produto['id']; ?>" class="delete-button">Excluir</a>
-                        <a href="edit_produto.php" class="edit-button">Alterar</a>
+                        <a href="edit_produto.php?id_produto=<?php echo $produto['id']; ?>" class="edit-button">Alterar</a>
+
                         <?php endif; ?>
                     </div>
             <?php
@@ -59,6 +60,7 @@ include "catalogo_functions/functions.php";
 
     </div>
     <div class="container-carrinho">
+
         <div class="carrinho">
             <h2>Carrinho de Compras</h2>
 
@@ -98,6 +100,9 @@ include "catalogo_functions/functions.php";
         <div class="acessar-carrinho">
             <a href="carrinho.php" class="btn-acessar-carrinho">Acessar Carrinho</a>
         </div>
+        <?php if ($_SESSION['adm'] == 1): ?>
+            <a href="inserir_produto.php" class="btn-inserir">Inserir Novo Produto</a>
+        <?php endif; ?>
     </div>
 
 </body>

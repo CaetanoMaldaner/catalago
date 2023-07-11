@@ -1,29 +1,41 @@
 <?php
-include 'config/functions.php';
+include "config/functions.php";
 
-// Guarda os dados recebidos nas labels nomeadas entre [" "] nas suas respectivas variáveis
-$nome = $_POST["nome"];
-$email = $_POST["email"];
-$senha = sha1($_POST["senha"]);
-$cpf = $_POST["CPF"];
-$telefone = $_POST["telefone"];
-$endereco = $_POST["endereço"];
+// Verificar se o formulário foi enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obter os dados do formulário
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $cpf = $_POST['CPF'];
+    $telefone = $_POST['telefone'];
+    $endereco = $_POST['endereço'];
 
-if(isset($_POST["adm"])) {
-    $adm = $_POST["adm"];
-}else {
-    $adm = 0;
-}
+    if(isset($_POST["adm"])) {
+        $adm = $_POST["adm"];
+    }else {
+        $adm = 0;
+    }
+    
 
-// Cria o insert do usuário
-$query = "INSERT INTO usuario (nome, email, senha, CPF, telefone, endereco, adm) VALUES ('$nome', '$email', '$senha', '$cpf', '$telefone', '$endereco', '$adm')";
+    // Verifica se o email já existe no banco de dados
+    $query = "SELECT * FROM usuarios WHERE email = '$email'";
+    $resultado = select($query);
 
+    if ($resultado && count($resultado) > 0) {
+    echo "Email já cadastrado. Por favor, utilize outro email.";
+    } else {
+    // Realizar a inserção dos dados no banco de dados
+    $query = "INSERT INTO usuario (nome, email, senha, cpf, telefone, endereco, adm) VALUES ('$nome', '$email', '$senha', '$cpf', '$telefone', '$endereco', '$adm')";
 
-//INSERE a $QUERY no banco, e faz o INSERT, se for bem sucedido mostra que funcionou, se não, mostra que não :)
-if (insert($query)) {
-    echo "Registro realizado com sucesso!";
-} else {
-    echo "Não foi possível realizar o registro do usuário!";
+    if (insert($query)) {
+        echo "Usuário criado com sucesso!";
+    } else {
+        echo "Não foi possível criar o usuário. Por favor, tente novamente.";
+    }
+    }
+
 }
 
 ?>
+

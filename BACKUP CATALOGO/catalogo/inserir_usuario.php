@@ -19,7 +19,7 @@
         <input type="text" name="telefone" required/>
         <label>Endereço:</label>
         <input type="text" name="endereço" required/>
-        <label>ADM:</label>
+        <label>Vendedor:</label>
         <input type="checkbox" name="adm" value="1"/>
 
 

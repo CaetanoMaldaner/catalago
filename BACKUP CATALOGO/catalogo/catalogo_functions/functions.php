@@ -6,6 +6,11 @@ if (isset($_GET['finalizado']) && $_GET['finalizado'] == 1) {
     $_SESSION['carrinho'] = array();
 }
 
+// Verificar se há uma mensagem de sucesso na URL
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo "<p>Produto editado com sucesso!</p>";
+}
+
 
 
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
