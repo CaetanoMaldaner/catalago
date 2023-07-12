@@ -2,7 +2,7 @@
 include "config/functions.php";
 session_start();
 
-//deleta os produtos e o carrinho do banco
+//deleta os produtos do carrinho do usuario 
 
 //deleta o carrinho
 $id_usuario = $_SESSION['id_usuario'];

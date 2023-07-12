@@ -3,7 +3,7 @@
 include "config/functions.php";
 session_start();
 
-//guarda os dados do carrinho que estão na $_SESSION na variavel $carrinho_produtos
+//guarda os PRODUTOS do carrinho que estão na $_SESSION['produto_carrinho'] na variavel $carrinho_produtos
 
 $carrinho_produtos = $_SESSION['carrinho']['produto_carrinho'];
 
@@ -19,7 +19,7 @@ $carrinho_produtos = $_SESSION['carrinho']['produto_carrinho'];
 <body>
     <div class="produto">
         <?php
-        // VERIFICA se o CARRINHO tem coisa, se tiver, mostra elas, se não mostra que não tem nada
+        // VERIFICA se o CARRINHO NÃO está vazio -> MOSTRA OS ITENS DO CARRINHO
         if (!empty($carrinho_produtos)) {
             $total = 0; // variável para armazenar o total dos valores dos produtos
             foreach ($carrinho_produtos as $produto) {
@@ -30,6 +30,8 @@ $carrinho_produtos = $_SESSION['carrinho']['produto_carrinho'];
                 echo "<br>" . "<br>";
                 $total += $produto['preco'] * $produto['quantidade']; // atualiza o total com o valor do produto atual
             }
+
+            //echos para MOSTRAR todos os dados
             echo "<b>Total: R$ </b>" . $total . "<br><br>";
             echo '<form action="finalizar_carrinho.php" method="post">';
             echo '<label for="numero_cartao">Número do Cartão:</label><br>';
@@ -42,6 +44,8 @@ $carrinho_produtos = $_SESSION['carrinho']['produto_carrinho'];
             echo '<input type="text" id="cvv_cartao" name="cvv_cartao" required><br><br>';
             echo '<input type="submit" value="Finalizar Compra">';
             echo '</form>';
+
+        //SE NÃO MOSTRA QUE NÃO TEM NADA    
         } else {
             echo "O carrinho está vazio.";
         }

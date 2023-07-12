@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Incluir o arquivo de configuração do banco de dados
+//INCLUE as FUNÇÕES do arquivo functions.php
 include "config/functions.php";
 
 // Verificar se o usuário logado é adm ou não
@@ -10,6 +10,7 @@ if ($_SESSION['adm'] == 1) {
     $usuarios = select($query);
 ?>
 
+<?php //EXIBE os dados do usuario como uma TABELA  ?>
 <table>
     <tr>
         <th>ID</th>
@@ -20,6 +21,8 @@ if ($_SESSION['adm'] == 1) {
         <th>Endereço</th>
         <th>Ações</th>
     </tr>
+
+    <?php //"SEPARA" os dados do ARRAY $USUARIOS e define os dados separados como $USUARIO , então os mostra com um echo ?>
     <?php foreach ($usuarios as $usuario) { ?>
         <tr>
             <td><?php echo $usuario['id']; ?></td>
@@ -29,12 +32,15 @@ if ($_SESSION['adm'] == 1) {
             <td><?php echo $usuario['telefone']; ?></td>
             <td><?php echo $usuario['endereco']; ?></td>
             <td>
+
+                 <?php //BOTÕES que REDIRECIONAM para as paginas de EDIÇÃO e EXCLUSÃO dos USUARIOS ?>
                 <a href="excluir_usuario.php?id_usuario=<?php echo $usuario['id']; ?>">Excluir</a>
                 <a href="edit_usuario.php?id_usuario=<?php echo $usuario['id']; ?>">Editar</a>
 
             </td>
         </tr>
     <?php } ?>
+    <?php //BOTÃO para voltar para a página de REGISTRO do usuario ?>
     <a href="inserir_usuario.php" class="create-user-button">Criar Usuário</a>
 </table>
 

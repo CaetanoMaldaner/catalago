@@ -30,12 +30,14 @@ if ($image['imagem']['error'] === UPLOAD_ERR_OK) {
     //Define onde será guardada essa imagem, no caso, na pasta "imgs"
     $diretorioDestino = 'imgs/';
 
-    //Gera um nome unico para imagem enviada (sinceramente não entendi oq o cris fez, mas esse código muda o nome da img para um nome unico que nunca pode ser repitido)
+    //Gera um nome unico que nunca pode ser repitido para a imagem enviada
     $nomeUnico = uniqid() . '.' . pathinfo($image['imagem']['name'], PATHINFO_EXTENSION);
 
-    //Cria e move um arquivo "temporario" (a msm imagem com o nome novo) para a pasta de destino ("imgs")
+    //Cria e move um arquivo "temporario" (a msm imagem com o nome novo)e envia para a pasta de destino ("imgs")
     //O Código cria um arquivo temporario para não renomear a imagem original, criando assim uma cópia da mesma (com nome unico) e inserindo ela no local desejado
+    
     if (move_uploaded_file($image['imagem']['tmp_name'], $diretorioDestino . $nomeUnico)) {
+
         //Retorna o nome unico da imagem para o banco e armazena na coluna imagem da tabela produto 
         return $nomeUnico;
     } else {

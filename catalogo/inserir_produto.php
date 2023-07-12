@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inserir Produtos</title>
 </head>
+
+<?php
+//Essa pagina cria tudo que pode ser visto na pagina inserir_produto.php
+//que são as caixas pra completar com informações (LABEL)
+//Esses dados são guardados na database através da outra pagina insert.php (que também mostra se a criação de um novo produto funcionou ou não)
+?>
+
 <body>
     <form method="POST" action="insert.php" enctype="multipart/form-data">
         <input type="file" name="imagem">
@@ -26,8 +33,3 @@
 </body>
 </html>
 
-<?php
-//Essa pagina cria tudo que pode ser visto na pagina inserir_produto.php
-//que são as caixas pra completar com informações (LABEL)
-//Esses dados são guardados na database através da outra pagina insert.php (que também mostra se a criação de um novo produto funcionou ou não)
-?>

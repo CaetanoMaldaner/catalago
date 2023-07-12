@@ -3,6 +3,12 @@ session_start();
 
 ?>
 
+<?php
+//Essa pagina cria tudo que pode ser visto na pagina inserir_usuario.php
+//que são as caixas pra completar com informações (LABEL)
+//Esses dados são guardados na database através da outra pagina insert.php (que também mostra se a criação de um novo produto funcionou ou não)
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +31,7 @@ session_start();
         <label>Endereço:</label>
         <input type="text" name="endereço" required/>
 
+        <?php //verifica se o usuario é ADM, SE FOR mostra o checkbox de ADM ?>
         <?php if ($_SESSION['adm'] == 1): ?>
 
         <label>ADM:</label>
@@ -36,7 +43,3 @@ session_start();
     </form>
 </body>
 </html>
-
-<?php
-//msm código do  inserir_produto.php    :)
-?>
