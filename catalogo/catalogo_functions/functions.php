@@ -12,18 +12,33 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 }
 
 
+//Código para verificação se existe um carrinho, no banco ou na sessão
 
+//SE (!)NÃO estiver setado um CARRINHO na sessão OU o array ['carrinho'] na sessão estiver vazio 
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
+
+    //Pega o id do usuario da SESSÃO e guarda na $id_usuario
     $id_usuario = $_SESSION['id_usuario'];
  
-
+    //executa uma pesquisa para verificar se o usuario logado possui um carrinho no banco
     $msql = 'SELECT * FROM carrinho WHERE id_usuario =' .  $id_usuario . ' LIMIT 1';
+
+    //guarda a FUNÇÃO existCarrinho com o parametro $msql na variavel $carrinho
     $carrinho = existCarrinho($msql);
   
+
+    //SE a variavel $carrinho ao executar a query $msql receber um resultado (numero de colunas = 1)
     if($carrinho->num_rows == 1){
+
+        //guarda o ID recebido da pesquisa na variavel $id_carrinho
        $id_carrinho = $carrinho->fetch_assoc()['id'];
+
+       //define o id_carrinho do array 'carrinho' da sessão, como o resultado recebido e guardado na variavel $id_carrinho
         $_SESSION['carrinho'] = array('id_carrinho' => $id_carrinho);
+
+    //SE NÃO
     }else{
+        //guarda na variavel $id_carrinho um insert que insere o id_usuario
         $id_carrinho = insert("INSERT INTO carrinho (id_usuario) VALUES ($id_usuario)");
        
         $_SESSION['carrinho'] = array('id_carrinho' => $id_carrinho);
